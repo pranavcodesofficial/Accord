@@ -1,0 +1,27 @@
+{
+  "name": "accord",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "web",
+    "slack",
+    "extension"
+  ],
+  "scripts": {
+    "dev:backend": "node src/api/index.js",
+    "dev:web": "npm run dev --workspace=web",
+    "dev:slack": "npm run dev --workspace=slack",
+    "build:web": "npm run build --workspace=web",
+    "build:extension": "npm run build --workspace=extension"
+  },
+  "dependencies": {
+    "express": "^4.22.1",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.3",
+    "express-rate-limit": "^7.5.1",
+    "dotenv": "^16.6.1",
+    "pg": "^8.17.1",
+    "uuid": "^9.0.1",
+    "winston": "^3.19.0"
+  }
+}

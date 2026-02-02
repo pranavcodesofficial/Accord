@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accord</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      width: 320px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .logo svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #111827;
+    }
+    
+    .header p {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    }
+    
+    .field {
+      margin-bottom: 14px;
+    }
+    
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+    
+    .field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.5);
+      transition: border-color 0.2s;
+    }
+    
+    .field input:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+    
+    .error {
+      display: none;
+      padding: 10px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 8px;
+      color: #dc2626;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+    
+    .error.visible {
+      display: block;
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+    
+    .btn-primary:disabled {
+      background: #93c5fd;
+      cursor: not-allowed;
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #e5e7eb;
+      color: #374151;
+      margin-top: 8px;
+    }
+    
+    .btn-secondary:hover {
+      background: #f3f4f6;
+    }
+    
+    /* Logged in state */
+    #logged-in-view {
+      display: none;
+    }
+    
+    #logged-in-view.visible {
+      display: block;
+    }
+    
+    #login-view {
+      display: block;
+    }
+    
+    #login-view.hidden {
+      display: none;
+    }
+    
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+    }
+    
+    .status-text {
+      font-size: 13px;
+      color: #047857;
+    }
+    
+    .info {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 12px;
+    }
+    
+    .info strong {
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    </div>
+    <div>
+      <h1>Accord</h1>
+      <p>Decision Logger</p>
+    </div>
+  </div>
+  
+  <!-- Login View -->
+  <div id="login-view" class="card">
+    <div class="field">
+      <label for="api-url">API URL</label>
+      <input type="url" id="api-url" value="http://localhost:3001" placeholder="http://localhost:3001">
+    </div>
+    
+    <div class="field">
+      <label for="workspace-id">Workspace ID</label>
+      <input type="text" id="workspace-id" placeholder="your-workspace">
+    </div>
+    
+    <div class="field">
+      <label for="user-id">User ID</label>
+      <input type="text" id="user-id" placeholder="your-user-id">
+    </div>
+    
+    <div id="error" class="error"></div>
+    
+    <button id="login-btn" class="btn btn-primary">Connect</button>
+  </div>
+  
+  <!-- Logged In View -->
+  <div id="logged-in-view" class="card">
+    <div class="status">
+      <div class="status-dot"></div>
+      <span class="status-text">Connected to Accord</span>
+    </div>
+    
+    <div class="info">
+      <p><strong>Workspace:</strong> <span id="display-workspace">-</span></p>
+      <p style="margin-top: 4px;"><strong>User:</strong> <span id="display-user">-</span></p>
+    </div>
+    
+    <button id="logout-btn" class="btn btn-secondary">Disconnect</button>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
